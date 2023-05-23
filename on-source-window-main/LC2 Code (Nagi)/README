@@ -1,0 +1,102 @@
+1. What is LC2?
+
+LC2 is a semi-analytic light curve code based on the light curve model of Arnett & Fu (1989). 
+The code is capable of creating a large variety of SN light curves in a quick and efficient way. 
+LC2 can also be used to get a rough, order-of-magnitude estimates on the physical parameters of 
+core collapse SNe, including Type IIb SNe with double-peaked light curves. The SN IIb model is 
+based on a two-component configuration, which contains a dense, inner region (core) and an extended, 
+low-mass outer envelope (shell). In this configuration the adiabatic cooling of the shell dominates 
+the early phase of the light curve, while after the first peak the light curve is governed by the 
+decay of the radioactive Ni+Co. It is assumed that the radioacitve heating acts only in the center 
+of the core, but does not affect the adiabatic cooling of the shock-heated outer shell. It is also 
+possible to use the energy input of a magnetar spin-down, instead of the Ni+Co decay, as an 
+alternative energy source in the core. The shape of the observed light curve is given as the sum 
+of the emission from the outer envelope and the radiative diffusion from the centrally-heated 
+inner core. The full description of LC2 model are documented in 
+Nagy et al., A&A 571, 77 (2014) and  Nagy & Vinko, submitted to A&A (2016).  
+
+
+2.How to install LC2?
+
+You don't need to install any special program or library to work with LC2. Thus, all you need to use 
+this code is a C compiler.
+
+
+3.How to make a model with LC2?
+
+To estimate the initial parameters of the progenitor, you have to fit the entire quasi-bolometric light curve 
+of the SN with two-component configuration models. For this, you need to modify separately the input parameter
+file of the core (par_core.inp) and the shell (par_shell.inp). After that, you only need to compile the 
+code with "./run", which creates the light curve of both the core and the shell, as well as the combined 
+bolometric light curve. 
+
+
+4.What are the initial parameters?
+
+There are several input parameters in the LC2 code:
+
+--> R0: Initial maximal radius (in cm)
+--> Mej: Ejected mass (in solar mass)
+--> Trec: Recombination temperature (in K) 
+--> MNi: Initial nickel mass (in solar mass) 
+--> Ekin: Kinetic energy of the explosion (in 10^51 erg)
+--> Eth: Thermal energy of the explosion (in 10^51 erg)
+--> a: Exponential density profile exponent (a >= 0, see below) 
+--> n: Power-law density profile exponent (n >= 0, see below)
+--> kappa: Thompson-scattering opacity (in cm^2/g)
+--> Ep: Initial rotational energy of the magnetar (in 10^51 erg)
+--> tp: Characteristic time scale of magnetar spin-down (in day) 
+--> Ag: Characteristic time scale of gamma-leakage (in day^2). 
+--> tmax: Final epoch of the model light curve (in day).
+
+Most important parameter settings and constraints:
+
+--> R0 must be greater for the shell than for the core
+--> Mej should be much lower for the shell than for the core
+--> Recombination in the core can be switched off by setting T_rec = 0
+--> Trec = 5000 K works for H-rich inner core
+--> Trec between 8000 and 10000 K may be used for He-rich inner core   
+--> MNi = 0 is assumed for the shell; MNi only affects the light curve from the core
+--> To use the exponential density profile, a > 0 must be set
+--> LC2 only uses the exponential density profile if n = 0 
+--> n > 0 turns on the power-law density profile ( n = 3 and n = 5 are forbidden! )
+--> The magnetar energy input can be switched off by setting  Ep = 0 and tp = 0
+--> The gamma-leakage can be ignored by setting Ag large, for example Ag = 1e10
+ 
+ 
+5.What is the configuration of the output file?  
+
+The "run script" creates 3 output file:
+--> core.out,
+--> shell.out,
+--> comb.out.
+
+The structures of "core.out" and "shell.out" are similar. These files contain the values of 
+the initial parameters and some calculated physical properties in the header, followed by the 
+calculated bolometric luminosities for the core and the shell component, respectively.
+ 
+The calculated physical properties:
+--> v: Maximal expansion velocity (in km/s)
+--> rho0: Initial central density (in g/cm^3)
+--> td: Time scale for radiative diffusion (in day)
+--> th: Hydrodynamic time scale (= R0 / v, in day)
+--> t0: Effective diffusion time scale or "light-curve time scale" (= sqrt(2*th*td), in day)
+
+In "core.out" and "shell.out" the different columns contain the following time-dependent 
+physical quantities:
+--> t: Time since shock breakout (in day)
+--> Lsn: Total calculated luminosity (in erg/s)
+--> logLsn: log10( Lsn )
+--> Ldiff: Luminosity from radiative diffusion of radioactive decay and/or magnetar input (in erg/s)
+--> Lrec: Luminosity from the recombination process (in erg/s)
+--> xi: Instantaneous radius of the recombination front in co-moving coordinate system 
+    (xi=1 if the front is at R_max)
+
+The structure of "comb.out" is much simpler. In this case the 1st column is the time elapsed from shock breakout.
+The 2nd column is the total luminosity of the core model, while the 3rd column is the total luminosity of the 
+shell model. Thus, the combined light curve can be constructed as the sum of the 2nd and 3rd columns of
+comb.out.
+
+Thanks for trying LC2 code, and if you use it for scientific purpose, please don't forget to 
+cite our papers.  
+

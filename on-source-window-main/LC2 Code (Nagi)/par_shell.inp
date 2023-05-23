@@ -1,0 +1,13 @@
+9.5e12    /*Initial radius (cm)*/
+0.075	  /*Ejecta mass (M_sun)*/
+0.0	  /*Ionization/recombination temperature (K)*/
+0.0 	  /*Initial nickel mass (M_sun)*/
+0.4	  /*Initial kinetic energy (1e51 erg)*/ 
+0.012	  /*Intital thermal energy (1e51 erg)*/    
+0.0       /*Exponential density profile exponent*/
+2.0	  /*Power-law density profile exponent*/
+0.34  	  /*Thomson scattering opacity (cm^2/g)*/
+0.0       /*Initial magnetar rotational energy (1e51 erg)*/
+0.0 	  /*Characteristic time scale of magnetar spin-down (day)*/
+1e10	  /*Gamma-leak (day^2)*/
+450.0	  /*Final epoch (day)*/

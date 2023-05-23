@@ -1,0 +1,18 @@
+echo "Light curve from the core is computed..."
+awk '{print $1}' par_core.inp > parameters.inp
+cc LC2.c -o sn -lm
+./sn > core.out
+echo "Done"
+
+echo "Light curve from the shell is computed..."
+awk '{print $1}' par_shell.inp > parameters.inp
+cc LC2.c -o sn  -lm
+./sn > shell.out
+echo "Done"
+
+grep -v '#' core.out | awk '{print $1,$2}' > a1
+grep -v '#' shell.out | awk '{print $2}' > a2
+paste a1 a2 > comb.out
+
+rm a1 a2
+echo "All done!"

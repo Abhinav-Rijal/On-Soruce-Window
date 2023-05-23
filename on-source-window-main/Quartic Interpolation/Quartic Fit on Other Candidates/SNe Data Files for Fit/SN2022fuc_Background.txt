@@ -1,0 +1,2 @@
+59671.364	r	20.483	non-detection
+59671.364	r	20.483	non-detection #Set to keep code consistent
